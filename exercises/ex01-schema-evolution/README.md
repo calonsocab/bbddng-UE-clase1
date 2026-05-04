@@ -6,6 +6,22 @@
 
 ---
 
+## Antes de abrir el notebook
+
+Desde la raíz del repositorio:
+
+```bash
+make up
+make seed-ex-01
+make exercise-01
+```
+
+El comando `make exercise-01` abre este notebook en JupyterLab:
+
+[exercise.ipynb](exercise.ipynb)
+
+---
+
 ## Objetivo de aprendizaje
 
 Al terminar este ejercicio el alumno será capaz de:

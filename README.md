@@ -1,10 +1,32 @@
-# clase01-intro — Evolución de Esquema en PostgreSQL
+# BBDDNG UE Clase 1 — Evolución de Esquema en PostgreSQL
 
 **Asignatura:** Bases de Datos de Nueva Generación · Máster en Big Data  
 **Clase:** 1 de 8 · Introducción  
 **Motor:** PostgreSQL 16
 
 Este repositorio contiene el material ejecutable del **Ejercicio 01** de la Clase 1. El objetivo es que el alumno experimente por qué evolucionar el esquema de una aplicación viva no es simplemente ejecutar un `ALTER TABLE`.
+
+---
+
+## Empieza aquí
+
+Si es la primera vez que abres este repositorio, ejecuta estos comandos desde una terminal:
+
+```bash
+git clone https://github.com/calonsocab/bbddng-UE-clase1.git
+cd bbddng-UE-clase1
+
+make venv
+make up
+make seed-ex-01
+make exercise-01
+```
+
+El último comando abre JupyterLab con el notebook del ejercicio.
+
+[Ver el notebook del Ejercicio 01 en GitHub](exercises/ex01-schema-evolution/exercise.ipynb)
+
+Si tienes problemas con Docker, Python o pgAdmin, consulta [Solución de problemas](docs/troubleshooting.md).
 
 ---
 
@@ -34,27 +56,23 @@ No necesitas instalar PostgreSQL localmente: se levanta con Docker.
 
 ---
 
-## Arranque desde cero
+## Flujo de trabajo
 
-```bash
-# 1. Clona el repositorio
-git clone <URL_DEL_REPO>
-cd clase01-intro
-
-# 2. Crea el entorno Python
-make venv
-
-# 3. Levanta PostgreSQL primaria + réplica
-make up
-
-# 4. Genera el dataset reducido del ejercicio 01
-make seed-ex-01
-
-# 5. Abre el notebook
-make exercise-01
+```text
+B2C inicial
+   ↓
+Mercat necesita vender a empresas
+   ↓
+Evolución del esquema: columnas, locks, datos antiguos y nuevos
+   ↓
+Tentación de usar EAV para evitar cambios frecuentes de tabla
+   ↓
+Coste real de EAV en informes, filtros y validaciones
+   ↓
+Conexión con schema versioning en MongoDB
 ```
 
-El notebook se abrirá en JupyterLab. Sigue las celdas en orden.
+El ejercicio está diseñado para ejecutarse en orden. No hace falta saber internos de PostgreSQL: el notebook te va guiando por los experimentos.
 
 ---
 
@@ -117,11 +135,12 @@ Password: postgres
 │   ├── generate_all.py
 │   └── ex01_schema_rigidity.py
 ├── exercises/
-│   └── ex01-schema-rigidity/
+│   └── ex01-schema-evolution/
 │       ├── README.md
 │       └── exercise.ipynb
 └── docs/
     ├── setup-previo.md
+    ├── proximas-clases.md
     └── troubleshooting.md
 ```
 
@@ -140,6 +159,15 @@ Password: postgres
 | 7 | Cierre, reflexión y quiz externo |
 
 Las preguntas de evaluación y las soluciones las facilitará el profesor por los canales de la asignatura.
+
+---
+
+## Qué debes completar
+
+- Ejecutar el notebook entero, celda a celda.
+- Comparar tus tiempos con los resultados orientativos comentados en clase.
+- Responder las reflexiones, polls o quizzes que indique el profesor.
+- Llegar al cierre con una explicación propia de por qué evolucionar un esquema no es solo hacer `ALTER TABLE`.
 
 ---
 

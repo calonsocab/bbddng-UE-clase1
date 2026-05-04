@@ -1,4 +1,4 @@
-# Troubleshooting — clase01-intro
+# Troubleshooting — BBDDNG UE Clase 1
 
 Problemas frecuentes y sus soluciones.
 
@@ -16,8 +16,7 @@ Problemas frecuentes y sus soluciones.
 ```bash
 docker logs clase01-replica
 # Si ves "FATAL: role replicator does not exist"
-make down
-docker volume rm clase01-intro_postgres_data clase01-intro_postgres_replica_data
+docker compose down -v
 make up
 ```
 Si el problema persiste, arranca solo la primaria primero y espera 30 segundos:
@@ -208,7 +207,7 @@ docker exec -it clase01-postgres psql -U postgres -d clase01
 
 ### Rutas con espacios en PowerShell
 
-Si clonas en una ruta con espacios, los scripts de Python pueden fallar. Recomendamos clonar en `C:\clase01-intro\` directamente.
+Si clonas en una ruta con espacios, los scripts de Python pueden fallar. Recomendamos clonar en `C:\bbddng-UE-clase1\` directamente.
 
 ---
 

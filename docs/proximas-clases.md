@@ -1,6 +1,6 @@
-# Resumen — Clase 1 y conexión con el temario
+# Próximas clases — conexión con el temario
 
-Este repositorio contiene actualmente el **Ejercicio 01** completo y ejecutable. La tabla inferior mantiene el mapa pedagógico de la Clase 1 completa para situar el ejercicio dentro del máster.
+Este repositorio contiene actualmente el **Ejercicio 01** completo y ejecutable. Esta página sitúa el ejercicio dentro del resto del máster.
 
 | # | Estado | Limitación relacional | Síntoma que se quiere observar | Clase futura |
 |---|--------|-----------------------|-------------------------------|--------------|

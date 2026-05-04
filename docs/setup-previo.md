@@ -29,7 +29,7 @@ Si no lo tienes: [https://www.python.org/downloads/](https://www.python.org/down
 
 ### Dependencias Python
 ```bash
-# Desde la raíz del repositorio clase01-intro/
+# Desde la raíz del repositorio bbddng-UE-clase1/
 pip install -r data-generation/requirements.txt
 ```
 
@@ -50,7 +50,7 @@ Esto descarga ~150 MB. Hazlo con buena conexión antes de clase.
 ## 3. Levanta la infraestructura
 
 ```bash
-cd clase01-intro/
+cd bbddng-UE-clase1/
 make up
 ```
 
