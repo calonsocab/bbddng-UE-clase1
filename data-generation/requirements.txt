@@ -1,0 +1,29 @@
+# Dependencias para generación de datos y notebooks
+# Instala con: pip install -r requirements.txt
+# Requiere Python >= 3.11. Probado con Python 3.13 en macOS ARM64.
+
+# Generación de datos sintéticos
+Faker>=24.11.0
+numpy>=1.26.4
+
+# Conexión a PostgreSQL
+# psycopg2-binary>=2.9.10 requiere Python 3.13; versiones anteriores solo tienen wheel hasta 3.12
+psycopg2-binary>=2.9.10
+# asyncpg>=0.30.0 tiene wheel para Python 3.13; 0.29.x no
+asyncpg>=0.30.0
+
+# Análisis y visualización en notebooks
+pandas>=2.2.2
+# matplotlib>=3.9.0 tiene wheel para Python 3.13 + macOS ARM64; 3.8.x no
+matplotlib>=3.9.0
+seaborn>=0.13.2
+
+# JupyterLab y magia SQL
+jupyterlab>=4.2.0
+ipython-sql>=0.5.0
+sqlalchemy>=2.0.30
+# prettytable 3.x cambió su API (TableStyle enum); ipython-sql 0.5.x usa prettytable.__dict__['DEFAULT']
+prettytable>=2.4.0,<3.0.0
+
+# Calidad de notebooks (opcional, para lint-notebooks)
+nbqa>=1.8.5

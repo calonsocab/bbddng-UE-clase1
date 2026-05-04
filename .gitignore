@@ -1,0 +1,35 @@
+# Entorno virtual Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Variables de entorno locales (no subir credenciales)
+.env
+
+# Material del profesor / evaluación / soluciones (repo privado)
+docs/teaching-notes*.md
+docs/kahoot*.md
+**/solution.md
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Docker (volúmenes gestionados por Docker, no por git)
+# Los datos generados NO van al repo — el alumno los genera con make seed
+data/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo

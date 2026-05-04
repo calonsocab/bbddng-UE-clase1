@@ -1,0 +1,86 @@
+services:
+
+  # ── Primaria ────────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16
+    container_name: clase01-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: clase01
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./infra/postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
+    command: >
+      postgres
+        -c config_file=/etc/postgresql/postgresql.conf
+        -c hba_file=/etc/postgresql/pg_hba.conf
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d clase01"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  # ── Réplica en streaming ─────────────────────────────────────────────────────
+  postgres-replica:
+    image: postgres:16
+    container_name: clase01-replica
+    user: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      PGPASSWORD: replicator_pass
+      PRIMARY_HOST: postgres
+      PRIMARY_PORT: 5432
+      REPLICATION_USER: replicator
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    entrypoint: ["bash", "-c"]
+    command: |
+        set -e
+        if [ ! -f /var/lib/postgresql/data/PG_VERSION ]; then
+          echo 'Iniciando pg_basebackup desde la primaria...'
+          until pg_isready -h postgres -U postgres; do sleep 2; done
+          pg_basebackup \
+            -h postgres -U replicator -D /var/lib/postgresql/data
+            -Xs -P -R --checkpoint=fast
+          echo 'Backup completado. Arrancando réplica...'
+        fi
+        exec postgres \
+          -c hot_standby=on
+          -c "primary_conninfo=host=postgres port=5432 user=replicator password=replicator_pass"
+    ports:
+      - "${REPLICA_PORT:-5433}:5432"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ── pgAdmin (opcional: docker compose --profile admin up) ───────────────────
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: clase01-pgadmin
+    profiles: [admin]
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@clase01.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+    ports:
+      - "${PGADMIN_PORT:-8080}:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  postgres_replica_data:
