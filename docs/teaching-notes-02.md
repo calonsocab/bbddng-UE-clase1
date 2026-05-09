@@ -112,13 +112,13 @@ No corrijas inmediatamente. Vuelve a estas predicciones al final.
 
 ### Paso 3
 
-El alumno explora cardinalidades. Debe completar al menos una query con `___`. Es importante que vea que hay muchas mas filas en lineas y tracking que en pedidos.
+El alumno explora cardinalidades. Debe completar al menos una query con `___`. Es importante que vea que las tablas hijas (`order_lines`, `tracking_events`) tienen muchas mas filas que la tabla raiz (`orders`).
 
 El punto didactico de elegir un pedido con varias lineas y varios eventos no es buscar un "pedido raro", sino construir un caso minimo donde la multiplicacion sea visible. Si el pedido tiene 4 lineas y 4 eventos, el resultado tabular puede tener 16 filas aunque el negocio siga hablando de "un pedido".
 
 Explicacion oral sugerida:
 
-> "La tabla no sabe representar dos arrays independientes. Cuando juntamos lineas y eventos en una unica relacion, aparecen combinaciones. Luego la aplicacion tiene que deshacer esa forma tabular y volver al arbol."
+> "SQL trabaja con relaciones planas. Cuando juntamos dos tablas hijas que representan listas distintas del mismo agregado, aparecen combinaciones. Luego la aplicacion tiene que deshacer esa forma tabular y volver al arbol."
 
 ### Paso 4
 
@@ -127,7 +127,7 @@ La query principal reconstruye `Order`. Deben fijarse en dos hechos:
 1. La query usa muchas tablas pero, para un `order_id`, PostgreSQL puede resolverla rapido si los indices estan bien.
 2. El resultado no es un objeto. Es una tabla multiplicada: cada combinacion de linea y evento produce una fila.
 
-El `EXPLAIN (ANALYZE, BUFFERS, VERBOSE)` se incluye para evitar una lectura equivocada del ejercicio. Si el alumno ve 5-10 ms puede concluir "entonces no hay problema". El plan permite explicar por que ese tiempo es bajo:
+El notebook ya no incluye `EXPLAIN` como celda de alumno porque distraia del objetivo principal. Si un alumno pregunta por que el pedido aislado tarda tan poco, puedes abrir `psql` o añadir temporalmente `EXPLAIN (ANALYZE, BUFFERS)` para mostrar que:
 
 - empieza por `Index Scan` sobre la PK de `orders`,
 - usa indices por FK en las tablas hijas,
@@ -141,9 +141,9 @@ La conclusion correcta es:
 
 Para que aparezca dolor de rendimiento, cambia el patron de lectura: muchos pedidos recientes, historial de cliente, endpoint de backoffice, exportacion, o N+1.
 
-### Paso 5
+### Paso 5 — Comparar el ancho del agregado
 
-El alumno modifica el ancho del agregado: primero sin tracking, luego con tracking, despues para una ventana de pedidos recientes. Aqui aparece mejor el coste de lectura porque ya no estamos midiendo una busqueda puntual por PK, sino el patron real de una pantalla de historial o un endpoint de pedidos recientes.
+El alumno compara dos formas de leer el agregado: primero sin tracking, luego con tracking, despues para una ventana de pedidos recientes. Aqui aparece mejor el coste de lectura porque ya no estamos midiendo una busqueda puntual por PK, sino el patron real de una pantalla de historial o un endpoint de pedidos recientes.
 
 En la maquina de preparacion, con el seed reducido (`60k` pedidos), los tiempos observados fueron:
 
@@ -173,9 +173,9 @@ No conviene usar 6M pedidos como dataset por defecto. Con las medias actuales, 6
 
 Eso puede ocupar decenas de GB con indices y romper el requisito transversal de que cada ejercicio pueda ejecutarse en menos de 10 minutos en un portatil decente. Si se quiere una demo de profesor con mas dolor, es preferible preparar previamente `make seed-ex-02-full` o crear una variante puntual de benchmark, pero no convertir 6M en el camino normal del alumno.
 
-### Paso 6
+### Paso 6 — Detectar el patron N+1
 
-El desafio aplicado N+1 hace que el alumno reproduzca de forma controlada el error que suelen esconder los ORMs con lazy loading. Con solo 100 pedidos recientes, la maquina de preparacion mostro:
+La seccion de N+1 hace que el alumno reproduzca de forma controlada el error que suelen esconder los ORMs con lazy loading. El codigo viene dado para que la observacion sea directa. Con solo 100 pedidos recientes, la maquina de preparacion mostro:
 
 ```text
 N+1: 298 lineas en 257 ms
