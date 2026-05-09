@@ -14,8 +14,7 @@ __pycache__/
 # Variables de entorno locales (no subir credenciales)
 .env
 
-# Material del profesor / evaluación / soluciones (repo privado)
-docs/teaching-notes*.md
+# Material de evaluación / soluciones (repo privado)
 docs/kahoot*.md
 **/solution.md
 

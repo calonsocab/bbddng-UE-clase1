@@ -4,7 +4,7 @@
 **Clase:** 1 de 8 · Introducción  
 **Motor:** PostgreSQL 16
 
-Este repositorio contiene el material ejecutable del **Ejercicio 01** de la Clase 1. El objetivo es que el alumno experimente por qué evolucionar el esquema de una aplicación viva no es simplemente ejecutar un `ALTER TABLE`.
+Este repositorio contiene el material ejecutable de los primeros ejercicios de la Clase 1. El objetivo es que el alumno experimente por qué el modelo relacional, aun siendo robusto, introduce fricción cuando el esquema cambia o cuando la aplicación necesita reconstruir agregados complejos.
 
 ---
 
@@ -26,7 +26,20 @@ El último comando abre JupyterLab con el notebook del ejercicio.
 
 [Ver el notebook del Ejercicio 01 en GitHub](exercises/ex01-schema-evolution/exercise.ipynb)
 
+Para continuar con el Ejercicio 02:
+
+```bash
+make seed-ex-02
+make exercise-02
+```
+
 Si tienes problemas con Docker, Python o pgAdmin, consulta [Solución de problemas](docs/troubleshooting.md).
+
+Material para el profesor:
+
+- [Guion completo de la clase](docs/teaching-notes-overview.md)
+- [Teaching notes del Ejercicio 01](docs/teaching-notes-01.md)
+- [Teaching notes del Ejercicio 02](docs/teaching-notes-02.md)
 
 ---
 
@@ -40,6 +53,7 @@ Al completar el ejercicio serás capaz de:
 4. Entender por qué aparece EAV como escape hatch ante la rigidez de esquema.
 5. Comparar EAV con una tabla relacional por subtipo para informes y filtros multiatributo.
 6. Conectar el problema con el patrón de **schema versioning** que se verá en MongoDB.
+7. Reconstruir un agregado `Order` normalizado y explicar el coste del mapping objeto-relacional.
 
 ---
 
@@ -139,6 +153,9 @@ Password: postgres
 │       ├── README.md
 │       └── exercise.ipynb
 └── docs/
+    ├── teaching-notes-overview.md
+    ├── teaching-notes-01.md
+    ├── teaching-notes-02.md
     ├── setup-previo.md
     ├── proximas-clases.md
     └── troubleshooting.md
@@ -155,7 +172,7 @@ Password: postgres
 | 3 | Setup y exploración del dataset |
 | 4 | Primer `ALTER TABLE`, efecto convoy y coste de EAV |
 | 5 | Filtro multiatributo en EAV vs tabla por subtipo |
-| 6 | Reto opcional para romper EAV |
+| 6 | Desafío aplicado sobre los límites de EAV |
 | 7 | Cierre, reflexión y quiz externo |
 
 Las preguntas de evaluación y las soluciones las facilitará el profesor por los canales de la asignatura.

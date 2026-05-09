@@ -15,6 +15,7 @@ import time
 
 EXERCISES = {
     1: ("ex01_schema_rigidity", "Ejercicio 01 — Evolución de Esquema y EAV"),
+    2: ("ex02_impedance_mismatch", "Ejercicio 02 — Impedance Mismatch"),
 }
 
 

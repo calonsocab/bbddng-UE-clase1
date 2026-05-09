@@ -86,10 +86,12 @@ make seed-fast          # alias general; actualmente genera el ejercicio 01
 | 3 | Setup y exploración del dataset |
 | 4 | Experimento: primer ALTER, efecto convoy y coste de EAV en informes B2B |
 | 5 | ✏️ **Modifica y observa** — filtro multiatributo en EAV vs tabla por subtipo |
-| 6 | Rómpelo — diseña el EAV más doloroso posible |
+| 6 | Desafío aplicado — diseña el EAV más doloroso posible |
 | 7 | ✏️ **Cierre + quiz externo** para la Clase 4 (MongoDB) |
 
 Las preguntas de poll/quiz y las soluciones las facilitará el profesor por los canales de la asignatura.
+
+El guion técnico del profesor está en [../../docs/teaching-notes-01.md](../../docs/teaching-notes-01.md).
 
 ---
 
