@@ -45,7 +45,7 @@ El modelo relacional no sabe que `Order` es una frontera conceptual. Solo sabe q
 
 ### N+1
 
-N+1 es el patron donde se ejecuta:
+N+1 es el patron donde una lectura que conceptualmente deberia ser "dame estos N agregados con sus hijos" se implementa como una primera query para traer los padres y luego una query adicional por cada padre. Es muy habitual cuando un ORM usa lazy loading:
 
 ```text
 1 query para cargar N pedidos
@@ -53,7 +53,44 @@ N queries adicionales para cargar sus lineas
 N queries adicionales para cargar pagos, direcciones, tracking...
 ```
 
+Ejemplo conceptual:
+
+```python
+orders = session.query(Order).limit(100).all()  # 1 query
+for order in orders:
+    print(order.lines)  # 100 queries si lines es lazy
+```
+
 El problema no es solo el numero de filas. Es el numero de viajes cliente-servidor, parseos, planificaciones, adquisiciones de snapshot MVCC y ejecuciones. Una query de 3 ms repetida 200 veces ya no es una query de 3 ms.
+
+La formula mental:
+
+```text
+Tiempo total aproximado =
+  1 query inicial
+  + N * (latencia de red + parse/planning + executor + serializacion)
+```
+
+En local, con red casi gratis, el patron ya se nota. En una arquitectura real, con aplicacion y base en hosts distintos, TLS, pool de conexiones, p95/p99 y concurrencia, N+1 puede convertirse en una regresion grave aunque cada query individual use indices.
+
+No confundas N+1 con "JOIN lento". N+1 es peor: muchas veces evita escribir el JOIN, pero lo sustituye por un numero grande de consultas pequeñas. En logs de aplicacion se ve como una cascada de queries parecidas:
+
+```sql
+SELECT * FROM order_lines WHERE order_id = 101;
+SELECT * FROM order_lines WHERE order_id = 102;
+SELECT * FROM order_lines WHERE order_id = 103;
+...
+```
+
+Mitigaciones tipicas dentro del mundo relacional/ORM:
+
+- `JOIN FETCH` o eager loading cuando sabes que necesitas los hijos.
+- Carga por lotes: `WHERE order_id = ANY(:ids)` o `WHERE order_id IN (...)`.
+- DataLoader/batching en APIs GraphQL.
+- Vistas/materialized views si el patron de lectura es estable.
+- Proyecciones especificas para lectura en lugar de cargar entidades completas.
+
+La idea pedagogica no es que los ORMs sean malos. La idea es que el modelo objeto invita a navegar relaciones (`order.lines`) y el modelo relacional cobra por cada acceso fisico si no agrupas bien las lecturas.
 
 ---
 
@@ -77,12 +114,32 @@ No corrijas inmediatamente. Vuelve a estas predicciones al final.
 
 El alumno explora cardinalidades. Debe completar al menos una query con `___`. Es importante que vea que hay muchas mas filas en lineas y tracking que en pedidos.
 
+El punto didactico de elegir un pedido con varias lineas y varios eventos no es buscar un "pedido raro", sino construir un caso minimo donde la multiplicacion sea visible. Si el pedido tiene 4 lineas y 4 eventos, el resultado tabular puede tener 16 filas aunque el negocio siga hablando de "un pedido".
+
+Explicacion oral sugerida:
+
+> "La tabla no sabe representar dos arrays independientes. Cuando juntamos lineas y eventos en una unica relacion, aparecen combinaciones. Luego la aplicacion tiene que deshacer esa forma tabular y volver al arbol."
+
 ### Paso 4
 
 La query principal reconstruye `Order`. Deben fijarse en dos hechos:
 
 1. La query usa muchas tablas pero, para un `order_id`, PostgreSQL puede resolverla rapido si los indices estan bien.
 2. El resultado no es un objeto. Es una tabla multiplicada: cada combinacion de linea y evento produce una fila.
+
+El `EXPLAIN (ANALYZE, BUFFERS, VERBOSE)` se incluye para evitar una lectura equivocada del ejercicio. Si el alumno ve 5-10 ms puede concluir "entonces no hay problema". El plan permite explicar por que ese tiempo es bajo:
+
+- empieza por `Index Scan` sobre la PK de `orders`,
+- usa indices por FK en las tablas hijas,
+- usa `Nested Loop` porque la relacion externa tiene una sola fila,
+- los buffers suelen estar en cache (`shared hit`),
+- `Memoize` puede evitar repetir trabajo para tracking cuando varias filas comparten shipment.
+
+La conclusion correcta es:
+
+> "PostgreSQL esta haciendo lo razonable para este caso puntual. El problema no es que esta query aislada sea lenta; el problema es que hemos tenido que reconstruir un agregado natural con muchas uniones y despues mapear filas repetidas a un objeto."
+
+Para que aparezca dolor de rendimiento, cambia el patron de lectura: muchos pedidos recientes, historial de cliente, endpoint de backoffice, exportacion, o N+1.
 
 ### Paso 5
 
@@ -126,6 +183,8 @@ Una query: 298 lineas en 6 ms
 ```
 
 Este resultado es mas expresivo que aumentar filas sin mas: con el mismo resultado logico, el patron de acceso cambia el coste en un orden de magnitud.
+
+Subraya que este ratio se obtuvo en local. En cloud, la diferencia normalmente aumenta porque cada query adicional paga latencia de red y competicion por conexiones. Si un alumno obtiene tiempos absolutos mas bajos, que compare ratio y numero de queries, no solo milisegundos.
 
 ### Paso 7
 
