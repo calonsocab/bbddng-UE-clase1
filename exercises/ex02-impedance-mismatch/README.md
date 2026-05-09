@@ -82,8 +82,8 @@ El script de seed crea estas tablas:
 | 2 | Hipotesis previa con predicciones numericas |
 | 3 | Setup y exploracion del dataset |
 | 4 | Experimento guiado: reconstruccion de `Order` con 6+ JOINs |
-| 5 | Modifica y observa: anchura del agregado y ventana temporal |
-| 6 | Desafío aplicado: reproduce N+1 de forma controlada |
+| 5 | Comparar el ancho del agregado |
+| 6 | Detectar el patron N+1 |
 | 7 | Mini-quiz, reflexion final y pista |
 
 El guion tecnico del profesor esta en [../../docs/teaching-notes-02.md](../../docs/teaching-notes-02.md).

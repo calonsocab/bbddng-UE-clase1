@@ -33,6 +33,13 @@ make seed-ex-02
 make exercise-02
 ```
 
+Para continuar con el Ejercicio 03, sobre reporting y preagregacion:
+
+```bash
+make seed-ex-03
+make exercise-03
+```
+
 Si tienes problemas con Docker, Python o pgAdmin, consulta [Solución de problemas](docs/troubleshooting.md).
 
 Material para el profesor:
@@ -40,6 +47,7 @@ Material para el profesor:
 - [Guion completo de la clase](docs/teaching-notes-overview.md)
 - [Teaching notes del Ejercicio 01](docs/teaching-notes-01.md)
 - [Teaching notes del Ejercicio 02](docs/teaching-notes-02.md)
+- [Teaching notes del Ejercicio 03](docs/teaching-notes-03.md)
 
 ---
 
@@ -147,15 +155,20 @@ Password: postgres
 ├── .env.example
 ├── data-generation/
 │   ├── generate_all.py
-│   └── ex01_schema_rigidity.py
+│   ├── ex01_schema_rigidity.py
+│   ├── ex02_impedance_mismatch.py
+│   └── ex03_reporting_preaggregation.py
 ├── exercises/
-│   └── ex01-schema-evolution/
+│   ├── ex01-schema-evolution/
+│   ├── ex02-impedance-mismatch/
+│   └── ex03-reporting-preaggregation/
 │       ├── README.md
 │       └── exercise.ipynb
 └── docs/
     ├── teaching-notes-overview.md
     ├── teaching-notes-01.md
     ├── teaching-notes-02.md
+    ├── teaching-notes-03.md
     ├── setup-previo.md
     ├── proximas-clases.md
     └── troubleshooting.md
