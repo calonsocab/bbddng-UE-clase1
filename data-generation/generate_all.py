@@ -17,6 +17,7 @@ EXERCISES = {
     1: ("ex01_schema_rigidity", "Ejercicio 01 — Evolución de Esquema y EAV"),
     2: ("ex02_impedance_mismatch", "Ejercicio 02 — Impedance Mismatch"),
     3: ("ex03_reporting_preaggregation", "Ejercicio 03 — Reporting y Preagregación"),
+    4: ("ex04_hot_reads_latency", "Ejercicio 04 — Hot Reads y Latencia"),
 }
 
 

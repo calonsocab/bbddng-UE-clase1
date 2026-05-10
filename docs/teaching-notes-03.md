@@ -72,14 +72,14 @@ El valor pedagogico esta en el ratio y en el trade-off, no en el numero exacto.
 
 ---
 
-## 3. Relacion con el ejercicio 5
+## 3. Relacion con el ejercicio 4
 
-El ejercicio 5, **Hot Reads & Latency**, debe quedar separado conceptualmente:
+El ejercicio 4, **Hot Reads & Latency**, debe quedar separado conceptualmente:
 
 - Ejercicio 3: reporting, agregaciones, precomputo, BI, materialized views/data marts.
-- Ejercicio 5: lecturas calientes, latencia p50/p95/p99, cache, concurrencia y limites de acceso repetido.
+- Ejercicio 4: lecturas calientes, latencia p50/p95/p99, concurrencia, read models operacionales y limites de acceso repetido.
 
-Redis encaja mucho mejor en el ejercicio 5 que en el 3. En el 3 puede aparecer como cache de resultados, pero no como solucion principal de reporting.
+Redis encaja mucho mejor como continuacion natural del ejercicio 4 que del ejercicio 3. En esta clase no hace falta implementarlo: primero interesa ver por que PostgreSQL empieza a sufrir con lecturas calientes.
 
 ---
 

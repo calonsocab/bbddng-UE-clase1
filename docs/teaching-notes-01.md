@@ -629,7 +629,7 @@ Este ejercicio demuestra tres limitaciones estructurales del modelo relacional:
 
 3. **El EAV es el escape hatch del modelo relacional — y una trampa.** Los equipos inventan EAV para evitar el ALTER, pero terminan con una base de datos sin tipos, sin constraints, con planes de ejecución degradados y lógica de validación en la capa de aplicación.
 
-La Clase 4 (MongoDB) presenta otra forma de gestionar esta tensión: documentos con formas distintas y **schema versioning**. El esquema deja de vivir solo en el catálogo de la base de datos y pasa a estar parcialmente en los documentos y en el código de aplicación. El ejercicio 09 (Live Migration) explora el patrón expand/contract como respuesta operacional dentro de PostgreSQL.
+La Clase 4 (MongoDB) presenta otra forma de gestionar esta tensión: documentos con formas distintas y **schema versioning**. El esquema deja de vivir solo en el catálogo de la base de datos y pasa a estar parcialmente en los documentos y en el código de aplicación. El ejercicio 08 (Live Migration) explora el patrón expand/contract como respuesta operacional dentro de PostgreSQL.
 
 ---
 

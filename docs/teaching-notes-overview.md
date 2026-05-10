@@ -111,39 +111,7 @@ EXPLAIN (ANALYZE, BUFFERS) SELECT ...
 *"La vista materializada resuelve el problema de lectura. ¿Qué problema introduce?"*  
 (Stale data, refresh cost, storage)
 
-**Transición:** "Hasta ahora sufrimos con filas y tablas. ¿Qué pasa cuando los datos tienen forma de grafo?"
-
----
-
-## Ejercicio 04 — Hierarchical Data (30 min)
-
-**Teoría previa oral (8 min):**
-
-Escribe en pizarra:
-```sql
-WITH RECURSIVE amigos AS (
-  SELECT user_id, friend_id, 1 AS profundidad
-  FROM friendship WHERE user_id = 1
-  UNION ALL
-  SELECT f.user_id, f.friend_id, a.profundidad + 1
-  FROM friendship f JOIN amigos a ON f.user_id = a.friend_id
-  WHERE a.profundidad < 3
-)
-SELECT DISTINCT friend_id FROM amigos;
-```
-
-*"¿Qué ocurre si la red tiene ciclos? ¿Si el grafo es denso?"*
-
-Tabla comparativa de representaciones de árbol:
-| Representación | Insert | Query subtree | Move subtree |
-|----------------|--------|---------------|--------------|
-| Adjacency list | O(1) | O(profundidad) | O(subtree) |
-| Materialized path | O(1) | O(log n) con LIKE | O(subtree) |
-| Nested set | O(n) | O(1) | O(n) |
-
-**Ejercicio (18 min):** Los alumnos ejecutan los 3 modelos y comparan.
-
-**Transición:** "Ahora que vuestros JOINs y grafos os han dejado sin batería, pongamos el escenario más habitual en producción: millones de usuarios leyendo el mismo dato."
+**Transición:** "La vista materializada resuelve una lectura agregada pesada. Ahora vamos al escenario más habitual en producción: muchos usuarios leyendo repetidamente el mismo dato."
 
 ---
 
@@ -151,7 +119,7 @@ Tabla comparativa de representaciones de árbol:
 
 ---
 
-## Ejercicio 05 — Hot Reads & Latency (30 min)
+## Ejercicio 04 — Hot Reads & Latency (45 min)
 
 **Teoría previa oral (7 min):**
 
@@ -164,18 +132,18 @@ Cliente → Red → Parser → Planner → Executor → Buffer Cache → Disco
         Total mínimo incluso con cache hit: ~0.5-2ms por query
 ```
 
-*"¿Por qué Redis puede responder en 0.1ms y Postgres no puede?"*
+*"Si la query tarda pocos milisegundos, por que el endpoint puede fallar bajo lecturas calientes?"*
 
 **Ejercicio (18 min):** El script asyncio sube concurrencia gradualmente. Los alumnos grafican p50/p95/p99.
 
 **Discusión (5 min):**  
-*"¿En qué punto del gráfico empieza el problema? ¿Qué cambiaría si añadimos un índice?"*
+*"¿En qué punto del gráfico empieza el problema? ¿Qué cambiaría si usamos una proyección preparada dentro de PostgreSQL?"*
 
 **Transición:** "Lecturas, bien. Ahora hagamos que muchos escriban a la vez sobre el mismo dato."
 
 ---
 
-## Ejercicio 06 — Concurrent Writes & ACID (35 min)
+## Ejercicio 05 — Concurrent Writes & ACID (35 min)
 
 **Teoría previa oral (10 min):**
 
@@ -204,7 +172,7 @@ WHERE id=2;  ← ESPERA fila 2  UPDATE cuenta SET saldo=...
 
 ---
 
-## Ejercicio 07 — Sharding Manual (30 min)
+## Ejercicio 06 — Sharding Manual (30 min)
 
 **Teoría previa oral (8 min):**
 
@@ -229,7 +197,7 @@ Cross-shard JOIN: SELECT * FROM shard_0.orders o
 
 ---
 
-## Ejercicio 08 — Text Search (25 min)
+## Ejercicio 07 — Text Search (25 min)
 
 **Teoría previa oral (5 min):**
 
@@ -243,7 +211,7 @@ Rápido, no más de 5 minutos — el ejercicio es muy autoexplicativo.
 
 ---
 
-## Ejercicio 09 — Live Migration (25 min)
+## Ejercicio 08 — Live Migration (25 min)
 
 **Teoría previa oral (5 min):**
 
@@ -256,7 +224,7 @@ Muestra el patrón expand/contract en 5 fases en pizarra. No más de 5 min — e
 
 ---
 
-## Ejercicio 10 — Time Series (25 min)
+## Ejercicio 09 — Time Series (25 min)
 
 **Teoría previa oral (5 min):**  
 *"100 millones de mediciones de sensores. ¿Qué índice pondríais?"*  

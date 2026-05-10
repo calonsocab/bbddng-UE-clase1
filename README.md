@@ -40,6 +40,13 @@ make seed-ex-03
 make exercise-03
 ```
 
+Para continuar con el Ejercicio 04, sobre hot reads y latencia:
+
+```bash
+make seed-ex-04
+make exercise-04
+```
+
 Si tienes problemas con Docker, Python o pgAdmin, consulta [Solución de problemas](docs/troubleshooting.md).
 
 Material para el profesor:
@@ -48,6 +55,7 @@ Material para el profesor:
 - [Teaching notes del Ejercicio 01](docs/teaching-notes-01.md)
 - [Teaching notes del Ejercicio 02](docs/teaching-notes-02.md)
 - [Teaching notes del Ejercicio 03](docs/teaching-notes-03.md)
+- [Teaching notes del Ejercicio 04](docs/teaching-notes-04.md)
 
 ---
 
@@ -62,6 +70,7 @@ Al completar el ejercicio serás capaz de:
 5. Comparar EAV con una tabla relacional por subtipo para informes y filtros multiatributo.
 6. Conectar el problema con el patrón de **schema versioning** que se verá en MongoDB.
 7. Reconstruir un agregado `Order` normalizado y explicar el coste del mapping objeto-relacional.
+8. Medir por que lecturas calientes repetidas degradan p95/p99 aunque una query individual parezca rapida.
 
 ---
 
@@ -157,11 +166,13 @@ Password: postgres
 │   ├── generate_all.py
 │   ├── ex01_schema_rigidity.py
 │   ├── ex02_impedance_mismatch.py
-│   └── ex03_reporting_preaggregation.py
+│   ├── ex03_reporting_preaggregation.py
+│   └── ex04_hot_reads_latency.py
 ├── exercises/
 │   ├── ex01-schema-evolution/
 │   ├── ex02-impedance-mismatch/
-│   └── ex03-reporting-preaggregation/
+│   ├── ex03-reporting-preaggregation/
+│   └── ex04-hot-reads-latency/
 │       ├── README.md
 │       └── exercise.ipynb
 └── docs/
@@ -169,6 +180,7 @@ Password: postgres
     ├── teaching-notes-01.md
     ├── teaching-notes-02.md
     ├── teaching-notes-03.md
+    ├── teaching-notes-04.md
     ├── setup-previo.md
     ├── proximas-clases.md
     └── troubleshooting.md

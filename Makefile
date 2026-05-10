@@ -68,6 +68,11 @@ seed-ex-%-full: _check-pg
 	@echo "[+] Generando dataset completo para ejercicio $*..."
 	$(PYTHON) $(DATA_GEN)/generate_all.py --exercise $*
 
+# El ejercicio 04 necesita volumen full para que la latencia y p95/p99 sean visibles.
+seed-ex-04: _check-pg
+	@echo "[+] Generando dataset completo para ejercicio 04..."
+	$(PYTHON) $(DATA_GEN)/generate_all.py --exercise 04
+
 # seed-ex-NN usa --small por defecto para iterar rápido en clase
 seed-ex-%: _check-pg
 	@echo "[+] Generando dataset reducido para ejercicio $* (usa 'make seed-ex-$*-full' para el completo)..."
@@ -117,9 +122,12 @@ help:
 	@echo "  make seed-ex-02-full Genera dataset completo del ejercicio 02"
 	@echo "  make seed-ex-03      Genera dataset reducido del ejercicio 03 (--small)"
 	@echo "  make seed-ex-03-full Genera dataset completo del ejercicio 03"
+	@echo "  make seed-ex-04      Genera dataset completo del ejercicio 04"
+	@echo "  make seed-ex-04-full Genera dataset completo del ejercicio 04"
 	@echo "  make exercise-01     Abre el notebook del ejercicio 01"
 	@echo "  make exercise-02     Abre el notebook del ejercicio 02"
 	@echo "  make exercise-03     Abre el notebook del ejercicio 03"
+	@echo "  make exercise-04     Abre el notebook del ejercicio 04"
 	@echo "  make psql            Abre psql en la primaria"
 	@echo "  make replica-psql    Abre psql en la réplica"
 	@echo "  make lint-notebooks  Verifica los notebooks"
