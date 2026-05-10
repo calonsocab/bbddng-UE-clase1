@@ -47,6 +47,13 @@ make seed-ex-04
 make exercise-04
 ```
 
+Para continuar con el Ejercicio 05, sobre escrituras concurrentes:
+
+```bash
+make seed-ex-05
+make exercise-05
+```
+
 Si tienes problemas con Docker, Python o pgAdmin, consulta [Solución de problemas](docs/troubleshooting.md).
 
 Material para el profesor:
@@ -56,6 +63,7 @@ Material para el profesor:
 - [Teaching notes del Ejercicio 02](docs/teaching-notes-02.md)
 - [Teaching notes del Ejercicio 03](docs/teaching-notes-03.md)
 - [Teaching notes del Ejercicio 04](docs/teaching-notes-04.md)
+- [Teaching notes del Ejercicio 05](docs/teaching-notes-05.md)
 
 ---
 
@@ -71,6 +79,7 @@ Al completar el ejercicio serás capaz de:
 6. Conectar el problema con el patrón de **schema versioning** que se verá en MongoDB.
 7. Reconstruir un agregado `Order` normalizado y explicar el coste del mapping objeto-relacional.
 8. Medir por que lecturas calientes repetidas degradan p95/p99 aunque una query individual parezca rapida.
+9. Observar como locks, waits y deadlocks aparecen al coordinar escrituras concurrentes.
 
 ---
 
@@ -167,12 +176,14 @@ Password: postgres
 │   ├── ex01_schema_rigidity.py
 │   ├── ex02_impedance_mismatch.py
 │   ├── ex03_reporting_preaggregation.py
-│   └── ex04_hot_reads_latency.py
+│   ├── ex04_hot_reads_latency.py
+│   └── ex05_concurrent_writes.py
 ├── exercises/
 │   ├── ex01-schema-evolution/
 │   ├── ex02-impedance-mismatch/
 │   ├── ex03-reporting-preaggregation/
-│   └── ex04-hot-reads-latency/
+│   ├── ex04-hot-reads-latency/
+│   └── ex05-concurrent-writes/
 │       ├── README.md
 │       └── exercise.ipynb
 └── docs/

@@ -8,7 +8,7 @@ Este repositorio contiene actualmente los primeros ejercicios completos y ejecut
 | 02 | Implementado | Impedance mismatch | Reconstruir objetos de dominio requiere múltiples JOINs y mapping ORM | Clase 4: MongoDB |
 | 03 | Implementado | JOINs analíticos | Consultas analíticas con muchas tablas degradan y empujan a desnormalizar | Clases 3/4: Cassandra, MongoDB |
 | 04 | Implementado | Lecturas calientes | Hay un suelo de latencia y p99 bajo concurrencia | Clase 2: Redis |
-| 05 | Roadmap | Escritura concurrente | Locks, waits y deadlocks bajo contención | Clases 2/3: Redis, Cassandra |
+| 05 | Implementado | Escritura concurrente | Locks, waits y deadlocks bajo contención | Clases 2/3: Redis, Cassandra |
 | 06 | Roadmap | Sharding manual | FKs y JOINs cross-shard son inviables o muy costosos | Clase 3: Cassandra |
 | 07 | Roadmap | Búsqueda de texto | `LIKE`/`tsvector` no cubren relevancia, fuzzy, faceting y análisis avanzado | Clase 5: Elasticsearch |
 | 08 | Roadmap | Migración en caliente | Expand/contract, backfill y dual write para cambiar esquemas vivos | Clase 4: MongoDB |
